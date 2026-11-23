@@ -1,0 +1,12 @@
+/* Linker version script: export only what Node needs to load the addon.
+   Everything else (including the 500 KB Unicode tables) stays local, so
+   the dynamic symbol table is tiny and dlopen is cheap. Do NOT use
+   -fvisibility=hidden instead: it would hide napi_register_module_v1
+   and Node could not load the addon at all. */
+{
+  global:
+    napi_register_module_v1;
+    node_api_module_get_api_version_v1;
+  local:
+    *;
+};
